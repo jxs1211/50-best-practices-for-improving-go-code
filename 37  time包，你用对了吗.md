@@ -952,7 +952,7 @@ fatal error: all goroutines are asleep - deadlock!
 
 我们看到问题的根源在于已经触发且其对应的 Channel 已经被取空的 `timer` 已经符合了直接使用 `Reset` 的前提，但我们仍然尝试去抽干 (drain) 该定时器的 Channel，导致消费者 goroutine 阻塞。我们来改进一下该示例：在 `timer.C` 无数据可读的情况下，也不要阻塞在这个 channel 上面：
 
-```
+```go
 // go-time-operations/timer_reset_3.go
 func consume(c <-chan bool, timer *time.Timer) bool {
 	if !timer.Stop() {
@@ -1000,7 +1000,7 @@ $go run timer_reset_3.go
 
 当一个定时器触发时，运行时会调用 `runtime.runOneTimer` 调用定时器关联的触发函数：
 
-```
+```go
 // $GOROOT/src/runtime/time.go (go 1.14)
 
 func runOneTimer(pp *p, t *timer, now int64) {

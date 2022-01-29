@@ -1034,7 +1034,11 @@ Process 119975 has exited with status 2
 (dlv) 
 ```
 
+注意：
 
+1 测试发现如果推出dlv debug，被调试程序也会退出
+
+2 如果发现debug过程中‘卡住’，可以通过ctrl+c恢复到有(dlv)提示的命令行界面，在通过r进行调试
 
 ## 5. 小结
 
